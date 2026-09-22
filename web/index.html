@@ -87,7 +87,7 @@ h1{font-size:38px;line-height:1;margin:0;letter-spacing:-.04em;font-weight:850;c
 
 <section class="metrics">
   <article class="metric card"><span class="metric-title">昨日公网</span><div class="metric-value-row"><strong id="yesterdayTx">--</strong></div><small>上一日公网出口</small></article>
-  <article class="metric card"><span class="metric-title">CPU</span><div class="metric-value-row"><strong id="cpuPct">--</strong><span class="metric-detail" id="cpuFreq">--</span></div><small>系统占用率</small></article>
+  <article class="metric card"><span class="metric-title">CPU</span><div class="metric-value-row"><strong id="cpuPct">--</strong></div><small>系统占用率</small></article>
   <article class="metric card"><span class="metric-title">内存</span><div class="metric-value-row"><strong id="memPct">--</strong><span class="metric-detail" id="memDetail">--</span></div><small>已用内存</small></article>
   <article class="metric card"><span class="metric-title">磁盘</span><div class="metric-value-row"><strong id="diskPct">--</strong><span class="metric-detail" id="diskDetail">--</span></div><small>已用磁盘</small></article>
 </section>
@@ -176,7 +176,6 @@ function render(d){
   $("yesterdayTx").textContent=fmtTraffic(pub.yesterday_tx_bytes);
   $("weekTx").textContent=fmtTraffic(pub.last7_tx_bytes);
   $("cpuPct").textContent=Number(sys.cpu_percent||0).toFixed(0)+"%";
-  $("cpuFreq").textContent=(Number(sys.cpu_frequency_mhz||0)/1000).toFixed(1)+" GHz";
   $("memPct").textContent=Number(sys.memory_percent||0).toFixed(0)+"%";
   $("memDetail").textContent=Math.round(Number(sys.memory_used_bytes||0)/MB)+" MB / "+Math.round(Number(sys.memory_total_bytes||0)/MB)+" MB";
   $("diskPct").textContent=Number(sys.disk_percent||0).toFixed(0)+"%";

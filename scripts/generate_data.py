@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import calendar
 import datetime as dt
 import json
 import os
@@ -8,7 +7,6 @@ import shutil
 import subprocess
 import tempfile
 import time
-from pathlib import Path
 
 DEFAULT_CONFIG = {"reset_day": 1, "quota_gb": 100.0, "adjustments": {}}
 
@@ -144,23 +142,6 @@ def cpu_percent():
     except Exception:
         return 0.0
 
-def cpu_frequency_mhz():
-    values = []
-    for p in Path("/sys/devices/system/cpu").glob("cpu[0-9]*/cpufreq/scaling_cur_freq"):
-        try:
-            values.append(float(p.read_text().strip()) / 1000.0)
-        except Exception:
-            pass
-    if not values:
-        try:
-            with open("/proc/cpuinfo", "r", encoding="utf-8") as f:
-                for line in f:
-                    if line.lower().startswith("cpu mhz"):
-                        values.append(float(line.split(":", 1)[1].strip()))
-        except Exception:
-            pass
-    return round(sum(values) / len(values), 0) if values else 0.0
-
 def memory_stats():
     info = {}
     with open("/proc/meminfo", "r", encoding="utf-8") as f:
@@ -232,19 +213,13 @@ def main():
             "tx_bytes": int(days.get(d.isoformat(), 0) or 0)
         })
 
-    started_at = state.get("started_at")
-    observed_start = period_start
-    if started_at:
-        try:
-            observed_start = max(period_start, dt.datetime.fromisoformat(started_at).date())
-        except Exception:
-            pass
-    elapsed_days = max(1, (today - observed_start).days + 1)
+    # Forecast by the elapsed calendar days of the configured billing cycle.
+    # Calibration changes period_tx, but must not change the denominator.
+    elapsed_days = max(1, (today - period_start).days + 1)
     total_days = (period_end - period_start).days + 1
     projection = int(period_tx / elapsed_days * total_days)
 
     cpu_pct = cpu_percent()
-    cpu_mhz = cpu_frequency_mhz()
     mem_used, mem_total, mem_pct = memory_stats()
     disk_used, disk_total, disk_pct = disk_stats()
 
@@ -278,7 +253,6 @@ def main():
         },
         "system": {
             "cpu_percent": cpu_pct,
-            "cpu_frequency_mhz": cpu_mhz,
             "memory_used_bytes": mem_used,
             "memory_total_bytes": mem_total,
             "memory_percent": mem_pct,
