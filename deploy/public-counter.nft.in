@@ -1,0 +1,27 @@
+table inet server_traffic_monitor {
+    counter public_tx_v4 {}
+    counter public_tx_v6 {}
+
+    chain output {
+        type filter hook output priority 10; policy accept;
+
+        oifname "@INTERFACE@" ip daddr != {
+            10.0.0.0/8,
+            100.64.0.0/10,
+            127.0.0.0/8,
+            169.254.0.0/16,
+            172.16.0.0/12,
+            192.168.0.0/16,
+            168.63.129.16/32,
+            224.0.0.0/4,
+            240.0.0.0/4
+        } counter name public_tx_v4
+
+        oifname "@INTERFACE@" ip6 daddr != {
+            ::1/128,
+            fc00::/7,
+            fe80::/10,
+            ff00::/8
+        } counter name public_tx_v6
+    }
+}

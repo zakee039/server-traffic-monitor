@@ -1,0 +1,9 @@
+[Unit]
+Description=Server Traffic Monitor admin action %i
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/python3 /usr/local/lib/server-traffic-monitor/admin_action.py %i /var/lib/server-traffic-monitor/api/admin/%i
+PrivateTmp=true
+ProtectHome=true

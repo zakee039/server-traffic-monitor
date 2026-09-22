@@ -1,0 +1,14 @@
+[Unit]
+Description=Server Traffic Monitor public egress counters
+After=network-online.target
+Wants=network-online.target
+Before=server-traffic-monitor-data.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/lib/server-traffic-monitor/load-public-counter.sh
+ExecStop=-/usr/sbin/nft delete table inet server_traffic_monitor
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

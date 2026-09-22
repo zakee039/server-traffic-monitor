@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch Server Traffic Monitor refresh requests
+
+[Path]
+PathExists=/var/lib/server-traffic-monitor/api/admin/refresh
+Unit=server-traffic-monitor-admin@refresh.service
+
+[Install]
+WantedBy=multi-user.target

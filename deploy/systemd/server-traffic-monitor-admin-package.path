@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch Server Traffic Monitor package requests
+
+[Path]
+PathExists=/var/lib/server-traffic-monitor/api/admin/package
+Unit=server-traffic-monitor-admin@package.service
+
+[Install]
+WantedBy=multi-user.target

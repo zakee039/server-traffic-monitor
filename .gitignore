@@ -1,0 +1,29 @@
+# Secrets / certificates
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.7z
+
+# Runtime data
+data.json
+public_state.json
+config.json
+*.db
+*.sqlite
+*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local test artifacts
+_check.js
+*.bak

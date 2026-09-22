@@ -1,0 +1,15 @@
+[Unit]
+Description=Generate Server Traffic Monitor JSON
+After=vnstat.service server-traffic-monitor-counter.service
+Wants=vnstat.service server-traffic-monitor-counter.service
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/bin/python3 /usr/local/lib/server-traffic-monitor/generate_data.py --interface @INTERFACE@ --output /var/lib/server-traffic-monitor/data.json --state /var/lib/server-traffic-monitor/public_state.json --config /var/lib/server-traffic-monitor/config.json
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/server-traffic-monitor

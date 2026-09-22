@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch Server Traffic Monitor adjustment requests
+
+[Path]
+PathExists=/var/lib/server-traffic-monitor/api/admin/adjust
+Unit=server-traffic-monitor-admin@adjust.service
+
+[Install]
+WantedBy=multi-user.target
