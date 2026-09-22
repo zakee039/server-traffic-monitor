@@ -213,6 +213,8 @@ def main():
             "tx_bytes": int(days.get(d.isoformat(), 0) or 0)
         })
 
+    started_at = state.get("started_at")
+
     # Forecast by the elapsed calendar days of the configured billing cycle.
     # Calibration changes period_tx, but must not change the denominator.
     elapsed_days = max(1, (today - period_start).days + 1)
